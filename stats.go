@@ -3,8 +3,6 @@ package main
 import (
 	"fmt"
 	"time"
-
-	"github.com/logrusorgru/aurora"
 )
 
 func round(val float64) int {
@@ -49,14 +47,14 @@ func displayStats(channel chan statsMessage) {
 			if sent > 0 {
 				fmt.Printf(
 					"%s %6.dr/s",
-					aurora.Gray("Requests sent:"),
+					"Requests sent:",
 					round(float64(sent)/elapsedSeconds),
 				)
 
 				// Successful requests? (replies received)
 				fmt.Printf(
 					"\t%s %6.dr/s",
-					aurora.Gray("Replies received:"),
+					"Replies received:",
 					round(float64(sent-errors)/elapsedSeconds),
 				)
 
@@ -69,10 +67,10 @@ func displayStats(channel chan statsMessage) {
 				if errors > 0 {
 					fmt.Printf(
 						"\t %s",
-						aurora.Red(fmt.Sprintf("Errors: %d (%d%%)",
+						fmt.Sprintf("Errors: %d (%d%%)",
 							errors,
 							100*errors/sent,
-						)),
+						),
 					)
 				}
 			} else {

@@ -10,7 +10,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/logrusorgru/aurora"
 	"github.com/miekg/dns"
 )
 
@@ -84,7 +83,7 @@ func main() {
 		hasErrors = hasErrors || testRequest(targetDomains[i])
 	}
 	if hasErrors {
-		fmt.Printf("%s %s", aurora.BgBrown(" WARNING "), "Could not resolve some domains you provided, you may receive only errors.\n")
+		fmt.Printf("%s", "Could not resolve some domains you provided, you may receive only errors.\n")
 	}
 
 	// Create a channel for communicating the number of sent messages
@@ -94,7 +93,7 @@ func main() {
 	for threadID := 0; threadID < concurrency; threadID++ {
 		go linearResolver(threadID, targetDomains[threadID%len(targetDomains)], sentCounterCh)
 	}
-	fmt.Print(aurora.Gray(fmt.Sprintf("Started %d threads.\n", concurrency)))
+	fmt.Print("Started %d threads.\n", concurrency)
 
 	if !flood {
 		go timerStats(sentCounterCh)
@@ -112,7 +111,7 @@ func testRequest(domain string) bool {
 	}
 	err := dnsExchange(resolver, message)
 	if err != nil {
-		fmt.Printf("Checking \"%s\" failed: %+v (using %s)\n", domain, aurora.Red(err), resolver)
+		fmt.Printf("Checking \"%s\" failed: %+v (using %s)\n", domain, err, resolver)
 		return true
 	}
 	return false
